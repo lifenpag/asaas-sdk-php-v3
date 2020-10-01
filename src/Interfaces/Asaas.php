@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace LifenPag\ApiAsaas\V3\Interfaces;
+namespace LifenPag\Asaas\V3\Interfaces;
 
 interface Asaas
 {
-
 }

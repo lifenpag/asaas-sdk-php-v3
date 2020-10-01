@@ -1,12 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace LifenPag\ApiAsaas\V3\Collections;
+namespace LifenPag\Asaas\V3\Collections;
 
-abstract class Collection
+abstract class Collection implements CollectionInterface
 {
-    public $data;
+    /**
+     * @var array $data Array holding data
+     */
+    protected $data = [];
 
-    public function __construct($collection)
+    public function __construct(self $collection)
     {
         $model = static::MODEL;
 
@@ -16,9 +19,11 @@ abstract class Collection
     }
 
     /**
-     * Get the value of data
+     * Get the data's value
+     *
+     * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
@@ -26,9 +31,11 @@ abstract class Collection
     /**
      * Set the value of data
      *
-     * @return  self
+     * @param self $data
+     *
+     * @return self
      */
-    public function setData($data)
+    public function setData(self $data): self
     {
         $this->data[] = $data;
 

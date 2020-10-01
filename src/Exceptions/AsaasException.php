@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace LifenPag\ApiAsaas\V3\Exceptions;
+namespace LifenPag\Asaas\V3\Exceptions;
 
 use Exception;
 
@@ -9,13 +9,12 @@ final class AsaasException extends Exception
     /**
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * @var string
      */
-    private $description;
-
+    protected $description;
 
     /**
      * @param string $type
@@ -26,35 +25,35 @@ final class AsaasException extends Exception
         $this->type = $type;
         $this->description = $description;
 
-        $exceptionMessage = $this->buildExceptionMessage();
-
-        parent::__construct($exceptionMessage);
+        parent::__construct((string) $this);
     }
 
     /**
+     * Convert exception into string
+     *
      * @return string
      */
-    private function buildExceptionMessage()
+    public function __toString(): string
     {
-        return sprintf(
-            'ERROR TYPE: %s. DESCRIPTION: %s',
-            $this->type,
-            $this->description
-        );
+        return 'ERROR TYPE: ' . $this->type . '. DESCRIPTION: ' . $this->description;
     }
 
     /**
+     * Get Exception Type
+     *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
+     * Get Parameter Name
+     *
      * @return string
      */
-    public function getParameterName()
+    public function getParameterName(): string
     {
         return $this->description;
     }
