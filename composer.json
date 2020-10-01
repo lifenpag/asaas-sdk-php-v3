@@ -1,12 +1,43 @@
 {
     "name": "lifenpag/asaas-php",
-    "description": "Asass PHP Library",
+    "description": "LifenPag's Asaas PHP Library",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "guzzlehttp/guzzle": ">=6.3"
+        "php": ">=7.3",
+        "guzzlehttp/guzzle": ">=7"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9.1",
+        "phploc/phploc": "*",
+        "phpmd/phpmd": "^2.8",
+        "phpstan/phpstan": "^0.12.48",
+        "phpunit/phpunit": "^9",
+        "sebastian/phpcpd": "^5.0",
+        "slevomat/coding-standard": "^6.3",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "autoload": {
-        "psr-4": {"LifenPag\\ApiAsaas\\V3\\": "src/"}
+        "psr-4": {
+            "LifenPag\\Asaas\\V3\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LifenPagTests\\Asaas\\V3\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpcs": [
+            "@php vendor/bin/phpcs --extensions=php --encoding=utf-8 --tab-width=4 -sp src",
+            "@php vendor/bin/phpcs --extensions=php --encoding=utf-8 --tab-width=4 -sp tests"
+        ]
     }
 }

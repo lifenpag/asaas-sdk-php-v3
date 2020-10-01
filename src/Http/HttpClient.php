@@ -1,41 +1,44 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace LifenPag\ApiAsaas\V3\Http;
+namespace LifenPag\Asaas\V3\Http;
 
-use \LifenPag\ApiAsaas\V3\ResponseHandler;
+use Throwable;
 
-use \LifenPag\ApiAsaas\V3\Exceptions\ValidationsErrorException;
+use GuzzleHttp\{
+    Client,
+    Exception\ClientException
+};
 
-use \GuzzleHttp\Client;
-
-use \GuzzleHttp\Exception\ClientException;
-
-use \LifenPag\ApiAsaas\V3\Exceptions\InvalidJsonException;
-
-use \Exception;
+use LifenPag\Asaas\V3\{
+    ResponseHandler,
+    Exceptions\InvalidJsonException,
+    Exceptions\ValidationsErrorException
+};
 
 class HttpClient
 {
-    private const ENVIRONMENT_PRODUCTION_MODE = 'production';
-    private const ENVIRONMENT_SANDBOX_MODE = 'sandbox';
-    private const ENVIRONMENT_TESTS_MODE = 'tests';
-    private const BASE_URL = [
+    protected const ENVIRONMENT_PRODUCTION_MODE = 'production';
+    protected const ENVIRONMENT_SANDBOX_MODE = 'sandbox';
+    protected const ENVIRONMENT_TESTS_MODE = 'tests';
+    protected const BASE_URL = [
        self::ENVIRONMENT_PRODUCTION_MODE => 'https://www.asaas.com/api/v3/',
        self::ENVIRONMENT_SANDBOX_MODE => 'https://sandbox.asaas.com/api/v3/',
-       self::ENVIRONMENT_TESTS_MODE => 'https://private-anon-d5023560cd-asaasv3.apiary-mock.com/api/v3/'
+       self::ENVIRONMENT_TESTS_MODE => 'https://private-anon-d5023560cd-asaasv3.apiary-mock.com/api/v3/',
     ];
 
-    private $apiKey;
-    private $options;
+    protected $apiKey;
+    protected $options = [];
 
     public $environment;
-    public $headers;
+    public $headers = [];
 
     protected static $http;
     protected static $obj;
 
-    public function __construct(string $apiKey, string $environment = HttpClient::ENVIRONMENT_PRODUCTION_MODE)
-    {
+    public function __construct(
+        string $apiKey,
+        string $environment = self::ENVIRONMENT_PRODUCTION_MODE
+    ) {
         if (isset(self::$http)) {
             return;
         }
@@ -49,27 +52,36 @@ class HttpClient
         self::$http = new Client($this->getOptions());
     }
 
-    public static function connect(string $apiKey = null, string $environment = null) {
-        if (!isset(self::$http)) {
-            new self($apiKey, $environment);
+    public static function connect(
+        string $apiKey,
+        string $environment
+    ) {
+        if (isset(self::$http)) {
+            return;
         }
+
+        new self($apiKey, $environment);
     }
 
-    public static function request($method, $uri, $payload = [])
-    {
+    public static function request(
+        string $method,
+        string $uri,
+        array $payload = []
+    ): ResponseHandler {
         try {
-            $response = self::$http->request($method,$uri,$payload);
+            $response = self::$http->request($method, $uri, $payload);
 
-            return ResponseHandler::success((string)$response->getBody());
+            return ResponseHandler::success((string) $response->getBody());
         } catch (ClientException $exception) {
             ResponseHandler::failure($exception);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             throw $exception;
         }
     }
 
-    private function validateEnvironmentVariable(string $environment): self
-    {
+    protected function validateEnvironmentVariable(
+        string $environment
+    ): self {
         if (!isset(self::BASE_URL[$environment])) {
             throw new ValidationsErrorException(ValidationsErrorException::INVALID_ENVIRONMENT_TYPE);
         }
@@ -80,7 +92,7 @@ class HttpClient
     /**
      * Get the value of environment
      */
-    public function getEnvironment()
+    public function getEnvironment(): string
     {
         return $this->environment;
     }
@@ -88,9 +100,9 @@ class HttpClient
     /**
      * Set the value of environment
      *
-     * @return  self
+     * @return self
      */
-    public function setEnvironment($environment)
+    public function setEnvironment($environment): self
     {
         $this->environment = $environment;
 
@@ -100,7 +112,7 @@ class HttpClient
     /**
      * Get the value of options
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -108,11 +120,11 @@ class HttpClient
     /**
      * Set the value of options
      *
-     * @return  self
+     * @return self
      */
-    public function setOptions()
+    public function setOptions(): self
     {
-        $this->options['base_uri'] = self::BASE_URL[$this->environment];
+        $this->options['base_uri'] = self::BASE_URL[$this->getEnvironment()];
         $this->options['headers'] = $this->getHeaders();
 
         return $this;
@@ -121,7 +133,7 @@ class HttpClient
     /**
      * Get the value of headers
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -129,9 +141,9 @@ class HttpClient
     /**
      * Set the value of headers
      *
-     * @return  self
+     * @return self
      */
-    public function setHeaders()
+    public function setHeaders(): self
     {
         $this->headers['access_token'] = $this->apiKey;
 
@@ -141,9 +153,9 @@ class HttpClient
     /**
      * Set the value of apiKey
      *
-     * @return  self
+     * @return self
      */
-    public function setApiKey($apiKey)
+    public function setApiKey(string $apiKey): self
     {
         $this->apiKey = $apiKey;
 

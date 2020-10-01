@@ -1,5 +1,6 @@
-<?php
-namespace LifenPag\ApiAsaas\V3\Exceptions;
+<?php declare(strict_types = 1);
+
+namespace LifenPag\Asaas\V3\Exceptions;
 
 use Exception;
 

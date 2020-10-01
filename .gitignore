@@ -1,0 +1,4 @@
+vendor
+.editorconfig
+build/*
+!build/git-hooks/pre-commit.sh

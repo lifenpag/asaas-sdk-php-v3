@@ -1,0 +1,12 @@
+parameters:
+    checkMissingIterableValueType: false
+    inferPrivatePropertyTypeFromConstructor: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: false
+    tipsOfTheDay: true
+    tmpDir: build/phpstan
+    level: 7
+    paths:
+        - app
+        - tests
+    parallel:
+        processTimeout: 300.0
