@@ -1,0 +1,12 @@
+{
+    "name": "lifenpag/asaas-php",
+    "description": "Asass PHP Library",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "guzzlehttp/guzzle": ">=6.3"
+    },
+    "autoload": {
+        "psr-4": {"LifenPag\\ApiAsaas\\V3\\": "src/"}
+    }
+}
