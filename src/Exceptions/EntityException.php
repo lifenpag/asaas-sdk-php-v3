@@ -4,25 +4,21 @@ namespace LifenPag\Asaas\V3\Exceptions;
 
 use Exception;
 
-final class AsaasException extends Exception
+final class EntityException extends Exception
 {
     /**
      * @var string
      */
-    protected $type;
+    protected $field;
 
-    /**
-     * @var string
-     */
     protected $description;
 
     /**
-     * @param string $type
-     * @param string $description
+     * @param string $field
      */
-    public function __construct($type, $description)
+    public function __construct($field, $description)
     {
-        $this->type = $type;
+        $this->typefield = $field;
         $this->description = $description;
 
         parent::__construct((string) $this);
@@ -35,6 +31,6 @@ final class AsaasException extends Exception
      */
     public function __toString(): string
     {
-        return 'ERROR TYPE: ' . $this->type . '. DESCRIPTION TEST: ' . $this->description;
+        return $this->typefield .' '. $this->description;
     }
 }

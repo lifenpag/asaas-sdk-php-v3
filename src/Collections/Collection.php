@@ -2,19 +2,23 @@
 
 namespace LifenPag\Asaas\V3\Collections;
 
-abstract class Collection implements CollectionInterface
+use LifenPag\Asaas\V3\Interfaces\CollectionInterface;
+
+use stdClass;
+
+abstract class Collection
 {
     /**
      * @var array $data Array holding data
      */
     protected $data = [];
 
-    public function __construct(self $collection)
+    public function __construct(stdClass $collection)
     {
-        $model = static::MODEL;
+        $entity = static::ENTITY;
 
         foreach ($collection->data as $data) {
-            $this->setData(new $model($data));
+            $this->setData(new $entity($data));
         }
     }
 
@@ -35,10 +39,22 @@ abstract class Collection implements CollectionInterface
      *
      * @return self
      */
-    public function setData(self $data): self
+    public function setData($data): self
     {
         $this->data[] = $data;
 
         return $this;
+    }
+
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->data);
+
+        $items = array_map($callback, $this->data, $keys);
+
+        $object = new stdClass();
+        $object->data = array_combine($keys, $items);
+
+        return new static($object);
     }
 }

@@ -4,10 +4,10 @@ namespace LifenPag\Asaas\V3\Collections;
 
 use LifenPag\Asaas\V3\{
     Collections\Collection,
-    Domains\Customer as CustomerModel
+    Entities\Customer as CustomerEntity
 };
 
 class Customer extends Collection
 {
-    protected const MODEL = CustomerModel::class;
+    protected const ENTITY = CustomerEntity::class;
 }

@@ -2,135 +2,25 @@
 
 namespace LifenPag\Asaas\V3\Domains;
 
-use LifenPag\Asaas\V3\Collections\Customer as CustomerCollection;
+use LifenPag\Asaas\V3\{
+    Collections\Customer as CustomerCollection,
+    Entities\Customer as CustomerEntity,
+    Entities\Payment as PaymentEntity,
+    Traits\Customer as CustomerTrait,
+};
 
-final class Customer extends Model
+
+final class Customer extends Domain
 {
-    public const MODEL_NAME = 'customers';
+    use CustomerTrait;
 
-    public static $collection = CustomerCollection::class;
+    public static $collectionClass = CustomerCollection::class;
+    public static $entityClass = CustomerEntity::class;
 
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * @var string
-     */
-    public $dateCreated;
-
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $email;
-
-    /**
-     * @var string
-     */
-    public $company;
-
-    /**
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * @var string
-     */
-    public $mobilePhone;
-
-    /**
-     * @var string
-     */
-    public $address;
-
-    /**
-     * @var string
-     */
-    public $addressNumber;
-
-    /**
-     * @var string
-     */
-    public $complement;
-
-    /**
-     * @var string
-     */
-    public $province;
-
-    /**
-     * @var bool
-     */
-    public $foreignCustomer;
-
-    /**
-     * @var bool
-     */
-    public $notificationDisabled;
-
-    /**
-     * @var string
-     */
-    public $city;
-
-    /**
-     * @var string
-     */
-    public $state;
-
-    /**
-     * @var string
-     */
-    public $country;
-
-    /**
-     * @var string
-     */
-    public $postalCode;
-
-    /**
-     * @var string
-     */
-    public $cpfCnpj;
-
-    /**
-     * @var string
-     */
-    public $personType;
-
-    /**
-     * @var array
-     */
-    public $subscriptions = [];
-
-    /**
-     * @var array
-     */
-    public $payments = [];
-
-    /**
-     * @var array
-     */
-    public $notifications = [];
-
-    /**
-     * @var bool
-     */
-    public $deleted = [];
-
-    /**
-     * Set a Date Created
-     * @param string $dateCreated
-     */
-    public function setDateCreated($dateCreated)
+    public function doPayment(PaymentEntity $paymentEntity): PaymentEntity
     {
-        $this->dateCreated = self::convertDateTime($dateCreated);
+        $paymentEntity->customer = self::$entity->id;
+
+        return $paymentEntity->create();
     }
 }

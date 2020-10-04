@@ -32,7 +32,8 @@
     "autoload-dev": {
         "psr-4": {
             "LifenPagTests\\Asaas\\V3\\": "tests/"
-        }
+        },
+        "files": ["src/helpers.php"]
     },
     "scripts": {
         "phpcs": [

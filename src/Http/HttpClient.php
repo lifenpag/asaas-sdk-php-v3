@@ -3,6 +3,7 @@
 namespace LifenPag\Asaas\V3\Http;
 
 use Throwable;
+use stdClass;
 
 use GuzzleHttp\{
     Client,
@@ -10,9 +11,10 @@ use GuzzleHttp\{
 };
 
 use LifenPag\Asaas\V3\{
+    Entities\Entity,
     ResponseHandler,
-    Exceptions\InvalidJsonException,
-    Exceptions\ValidationsErrorException
+    Exceptions\ValidationsErrorException,
+
 };
 
 class HttpClient
@@ -23,7 +25,7 @@ class HttpClient
     protected const BASE_URL = [
        self::ENVIRONMENT_PRODUCTION_MODE => 'https://www.asaas.com/api/v3/',
        self::ENVIRONMENT_SANDBOX_MODE => 'https://sandbox.asaas.com/api/v3/',
-       self::ENVIRONMENT_TESTS_MODE => 'https://private-anon-d5023560cd-asaasv3.apiary-mock.com/api/v3/',
+       self::ENVIRONMENT_TESTS_MODE => 'https://private-anon-a054b7305d-asaasv3.apiary-mock.com',
     ];
 
     protected $apiKey;
@@ -67,7 +69,7 @@ class HttpClient
         string $method,
         string $uri,
         array $payload = []
-    ): ResponseHandler {
+    ): stdClass {
         try {
             $response = self::$http->request($method, $uri, $payload);
 
@@ -87,6 +89,49 @@ class HttpClient
         }
 
         return $this;
+    }
+
+    public static function create(Entity $entity, string $modelName): stdClass
+    {
+        return self::request(
+            'POST',
+            $modelName,
+            ['json' => $entity->toArray()],
+        );
+    }
+
+    public static function delete(string $id, string $modelName): stdClass
+    {
+        return self::request(
+            'DELETE',
+            $modelName . '/' . $id,
+        );
+    }
+
+    public static function restore(string $id, string $modelName): stdClass
+    {
+        return self::request(
+            'POST',
+            $modelName . '/' . $id . '/restore',
+        );
+    }
+
+    public static function update(array $request, string $id, string $modelName): stdClass
+    {
+        return self::request(
+            'POST',
+            $modelName . '/' . $id,
+            ['json' => $request],
+        );
+    }
+
+    public static function all(array $filters, string $modelName): stdClass
+    {
+        return self::request(
+            'GET',
+            $modelName,
+            ['query' => $filters],
+        );
     }
 
     /**
@@ -146,6 +191,7 @@ class HttpClient
     public function setHeaders(): self
     {
         $this->headers['access_token'] = $this->apiKey;
+        $this->headers['content-type'] = 'application/json';
 
         return $this;
     }

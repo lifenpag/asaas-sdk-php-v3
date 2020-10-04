@@ -9,9 +9,9 @@ use GuzzleHttp\Exception\ClientException;
 
 use LifenPag\Asaas\V3\Exceptions\{
     AsaasException,
-    InvalidJsonException
+    EntityException,
+    InvalidJsonException,
 };
-
 class ResponseHandler
 {
     /**
@@ -35,6 +35,19 @@ class ResponseHandler
     public static function failure(Throwable $originalException)
     {
         throw self::parseException($originalException);
+    }
+
+    /**
+     *
+     * @throws EntityException
+     * @return void
+     */
+    public static function invalidEntity($property)
+    {
+        throw new EntityException(
+            $property,
+            'is required',
+        );
     }
 
     /**

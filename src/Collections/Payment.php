@@ -4,10 +4,10 @@ namespace LifenPag\Asaas\V3\Collections;
 
 use LifenPag\Asaas\V3\{
     Collections\Collection,
-    Domains\Payment as PaymentModel
+    Entities\Payment as PaymentEntity
 };
 
 class Payment extends Collection
 {
-    protected const MODEL = PaymentModel::class;
+    protected const ENTITY = PaymentEntity::class;
 }
