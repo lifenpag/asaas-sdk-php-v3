@@ -6,7 +6,7 @@ use LifenPag\Asaas\V3\Interfaces\CollectionInterface;
 
 use stdClass;
 
-abstract class Collection
+abstract class Collection implements CollectionInterface
 {
     /**
      * @var array $data Array holding data
@@ -46,7 +46,7 @@ abstract class Collection
         return $this;
     }
 
-    public function map(callable $callback)
+    public function map(callable $callback): Collection
     {
         $keys = array_keys($this->data);
 

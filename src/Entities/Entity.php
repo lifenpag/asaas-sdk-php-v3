@@ -5,12 +5,13 @@ namespace LifenPag\Asaas\V3\Entities;
 use LifenPag\Asaas\V3\{
     Http\HttpClient,
     ResponseHandler,
+    Hydratable
 };
 
 use DateTime;
 use stdClass;
 
-abstract class Entity
+abstract class Entity extends Hydratable
 {
     protected static $client;
     protected $exists = false;
@@ -22,7 +23,7 @@ abstract class Entity
             return $this;
         }
 
-        $this->prepareBuild($parameters);
+        $this->prepareHydrate($parameters);
     }
 
     public function create(): self
@@ -55,41 +56,16 @@ abstract class Entity
         return new static($response);
     }
 
-    public function prepareBuild($parameters): void
+    public function prepareHydrate($parameters): void
     {
         if (is_a($parameters, stdClass::class)) {
             $parameters = get_object_vars($parameters);
         }
 
-        $this->build($parameters);
+        $this->hydrate($parameters);
 
         $this->exists = isset($this->id);
         $this->primaryKeyValue = $this->id ?? null;
-    }
-
-    /**
-     * Fill entity with parameters data
-     *
-     * @param array $parameters Entity parameters
-     */
-    public function build(array $parameters): void
-    {
-        foreach ($parameters as $property => $value) {
-            if (!property_exists($this, $property)) {
-                continue;
-            }
-
-            $this->$property = $value;
-
-            // Apply mutator
-            $mutatorName = 'set' . ucfirst(static::convertToCamelCase($property));
-
-            if (!method_exists($this, $mutatorName)) {
-                continue;
-            }
-
-            call_user_func_array([$this, $mutatorName], [$value]);
-        }
     }
 
     /**
@@ -109,21 +85,6 @@ abstract class Entity
         }
 
         return $date;
-    }
-
-    /**
-     * Convert to CamelCase
-     *
-     * @param string $str Snake case string
-     * @return string Camel case string
-     */
-    protected static function convertToCamelCase($str): string
-    {
-        $callback = static function ($match) {
-            return strtoupper($match[2]);
-        };
-
-        return lcfirst(preg_replace_callback('/(^|_)([a-z])/', $callback, $str));
     }
 
     public function toArray(): array

@@ -14,8 +14,6 @@ use LifenPag\Asaas\V3\{
     Exceptions\EntityException,
 };
 
-use GuzzleHttp\Exception\ClientException;
-
 use ArgumentCountError;
 
 use InvalidArgumentException;
