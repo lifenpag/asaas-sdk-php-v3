@@ -4,9 +4,9 @@ namespace LifenPag\Asaas\V3;
 
 use LifenPag\Asaas\V3\{
     Http\HttpClient,
-    Interfaces\Asaas as AsaasInterface
+    Interfaces\ClientInterface
 };
 
-class Client extends HttpClient implements AsaasInterface
+class Client extends HttpClient implements ClientInterface
 {
 }

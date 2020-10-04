@@ -1,7 +1,15 @@
 {
     "name": "lifenpag/asaas-php",
     "description": "LifenPag's Asaas PHP Library",
+    "keywords": ["Asaas", "Guzzle", "PHP", "LifenPag", "API"],
     "type": "library",
+    "authors": [
+        {
+            "name": "LifenPag",
+            "email": "contato@lifenpag.com.br",
+            "homepage": "https://lifenpag.com.br"
+        }
+    ],
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,

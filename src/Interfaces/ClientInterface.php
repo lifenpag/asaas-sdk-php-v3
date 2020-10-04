@@ -2,6 +2,6 @@
 
 namespace LifenPag\Asaas\V3\Interfaces;
 
-interface Asaas
+interface ClientInterface
 {
 }
