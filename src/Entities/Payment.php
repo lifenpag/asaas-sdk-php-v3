@@ -199,12 +199,4 @@ class Payment extends Entity
      * @var bool
      */
     public $deleted = [];
-
-    /**
-     * @param string $dueDate
-     */
-    public function setDueDate($dueDate): void
-    {
-        $this->dueDate = self::convertDateTime($dueDate);
-    }
 }

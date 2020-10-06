@@ -124,13 +124,4 @@ class Customer extends Entity
      * @var bool
      */
     public $deleted = [];
-
-    /**
-     * Set a Date Created
-     * @param string $dateCreated
-     */
-    public function setDateCreated($dateCreated)
-    {
-        $this->dateCreated = self::convertDateTime($dateCreated);
-    }
 }

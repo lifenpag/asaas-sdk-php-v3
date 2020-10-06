@@ -68,21 +68,6 @@ abstract class Entity extends Hydratable
         $this->primaryKeyValue = $this->id ?? null;
     }
 
-    /**
-     * Convert date string do DateTime Object
-     *
-     * @param string $date DateTime string
-     *
-     * @return DateTime
-     */
-    protected static function convertDateTime(
-        string $stringDate
-    ): DateTime {
-        return DateTime::createFromFormat('Y-m-d', $stringDate);
-
-        return $date;
-    }
-
     public function toArray(): array
     {
         return get_object_vars($this);
