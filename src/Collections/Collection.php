@@ -4,6 +4,8 @@ namespace LifenPag\Asaas\V3\Collections;
 
 use LifenPag\Asaas\V3\Interfaces\CollectionInterface;
 
+use LifenPag\Asaas\V3\Entities\Entity;
+
 use stdClass;
 
 abstract class Collection implements CollectionInterface
@@ -39,7 +41,7 @@ abstract class Collection implements CollectionInterface
      *
      * @return self
      */
-    public function setData($data): self
+    public function setData(Entity $data): self
     {
         $this->data[] = $data;
 
