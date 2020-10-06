@@ -8,7 +8,6 @@ use LifenPag\Asaas\V3\{
     Hydratable
 };
 
-use DateTime;
 use stdClass;
 
 abstract class Entity extends Hydratable
@@ -87,5 +86,10 @@ abstract class Entity extends Hydratable
 
             ResponseHandler::invalidEntity($property);
         }, static::FIELDS_REQUIRED);
+    }
+
+    public function getPrimaryKeyValue(): string
+    {
+        return $this->primaryKeyValue;
     }
 }

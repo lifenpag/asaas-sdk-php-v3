@@ -2,13 +2,28 @@
 
 namespace LifenPag\Asaas\V3\Entities;
 
-use LifenPag\Asaas\V3\Traits\Payment as PaymentTrait;
+use LifenPag\Asaas\V3\{
+    Traits\Payment as PaymentTrait,
+    Http\HttpClient
+};
 
 class Payment extends Entity
 {
     use PaymentTrait;
 
     public const FIELDS_REQUIRED = [];
+
+    public function populateDigitableLine(): self
+    {
+        $response = HttpClient::request(
+            'GET',
+            static::$modelName . '/' . $this->getPrimaryKeyValue() . '/identificationField',
+        );
+
+        $this->prepareHydrate($response);
+
+        return $this;
+    }
 
     /**
      * @var int
@@ -199,4 +214,9 @@ class Payment extends Entity
      * @var bool
      */
     public $deleted = [];
+
+    /**
+     * @var string
+     */
+    public $identificationField;
 }

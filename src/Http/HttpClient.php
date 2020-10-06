@@ -136,6 +136,14 @@ class HttpClient
         );
     }
 
+    public static function find(string $id, string $modelName): stdClass
+    {
+        return self::request(
+            'GET',
+            $modelName . '/' . $id,
+        );
+    }
+
     /**
      * Get the value of environment
      */

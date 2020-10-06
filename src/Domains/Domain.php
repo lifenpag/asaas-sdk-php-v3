@@ -66,10 +66,7 @@ abstract class Domain
 
     public static function find(string $id): self
     {
-        $response = HttpClient::request(
-            'GET',
-            static::$modelName . '/' . $id,
-        );
+        $response = HttpClient::find($id, static::$modelName);
 
         return new static(new static::$entityClass($response));
     }

@@ -83,4 +83,14 @@ class PaymentTest extends TestCase
         $this->assertInstanceOf(PaymentCollection::class, $paymentCollection);
         $this->assertCount(3, $paymentCollection->getData());
     }
+
+    public function testFindPayment(): void
+    {
+        Client::connect($this->apiKey, $this->environment);
+
+        $payment = PaymentDomain::find('pay_615681024315')->get()->populateDigitableLine();
+
+        $this->assertInstanceOf(PaymentEntity::class, $payment);
+        $this->assertNotNull($payment->identificationField);
+    }
 }
