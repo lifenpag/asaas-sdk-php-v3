@@ -2,9 +2,11 @@
 
 namespace LifenPag\Asaas\V3\Collections;
 
-use LifenPag\Asaas\V3\Interfaces\CollectionInterface;
-
-use LifenPag\Asaas\V3\Entities\Entity;
+use LifenPag\Asaas\V3\{
+    Exceptions\EntityException,
+    Interfaces\CollectionInterface,
+    Entities\Entity
+};
 
 use stdClass;
 
@@ -42,6 +44,23 @@ abstract class Collection implements CollectionInterface
     public function isEmpty(): bool
     {
         return $this->getData() === [];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Entity
+     */
+    public function first(): Entity
+    {
+        if ($this->isEmpty()) {
+            throw new EntityException(
+                'collection data',
+                'is empty',
+            );
+        }
+
+        return $this->getData()[0];
     }
 
     /**
