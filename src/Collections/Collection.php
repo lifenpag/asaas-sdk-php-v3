@@ -35,6 +35,16 @@ abstract class Collection implements CollectionInterface
     }
 
     /**
+     * Verifies if data collection is empty
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->getData() === [];
+    }
+
+    /**
      * Set the value of data
      *
      * @param self $data
