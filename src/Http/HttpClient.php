@@ -2,7 +2,6 @@
 
 namespace LifenPag\Asaas\V3\Http;
 
-use Throwable;
 use stdClass;
 
 use GuzzleHttp\{
@@ -65,6 +64,11 @@ class HttpClient
         new self($apiKey, $environment);
     }
 
+    /**
+     *
+     * @throws Throwable
+     * @return stdClass
+     */
     public static function request(
         string $method,
         string $uri,
@@ -76,8 +80,6 @@ class HttpClient
             return ResponseHandler::success((string) $response->getBody());
         } catch (ClientException $exception) {
             ResponseHandler::failure($exception);
-        } catch (Throwable $exception) {
-            throw $exception;
         }
     }
 

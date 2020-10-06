@@ -78,11 +78,7 @@ abstract class Entity extends Hydratable
     protected static function convertDateTime(
         string $stringDate
     ): DateTime {
-        $date = DateTime::createFromFormat('Y-m-d', $stringDate);
-
-        if (!$date) {
-            $date = DateTime::createFromFormat('d/m/Y', $stringDate);
-        }
+        return DateTime::createFromFormat('Y-m-d', $stringDate);
 
         return $date;
     }
@@ -92,13 +88,19 @@ abstract class Entity extends Hydratable
         return get_object_vars($this);
     }
 
+    /**
+     *
+     * @throws EntityException
+     * @return void
+     */
     public function validate(): void
     {
-        foreach (static::FIELDS_REQUIRED as $property) {
-            if (!property_exists($this, $property) || $this->$property === null) {
-                ResponseHandler::invalidEntity($property);
-                exit;
+        array_map(function ($property) {
+            if (property_exists($this, $property) && $this->$property !== null) {
+                return;
             }
-        }
+
+            ResponseHandler::invalidEntity($property);
+        }, static::FIELDS_REQUIRED);
     }
 }
