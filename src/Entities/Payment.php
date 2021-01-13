@@ -103,6 +103,11 @@ class Payment extends Entity
     /**
      * @var string
      */
+    public $bankSlipUrl;
+
+    /**
+     * @var string
+     */
     public $boletoUrl;
 
     /**
