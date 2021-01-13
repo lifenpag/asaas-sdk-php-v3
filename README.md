@@ -39,7 +39,7 @@ $customer->email = 'homer.simpson@lifenpag.com';
 
 $customerCreated = CustomerDomain::create($customer)->get();
 // or
-$customer = new Customer((object) ["name" => "test", "email" => "email@test.com"];
+$customer = new CustomerEntity((object) ["name" => "test", "email" => "email@test.com"];
 
 $customerCreated = CustomerDomain::create($customer)->get();
 ```
