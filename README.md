@@ -38,6 +38,10 @@ $customer->name = 'Homer Simpson';
 $customer->email = 'homer.simpson@lifenpag.com';
 
 $customerCreated = CustomerDomain::create($customer)->get();
+// or
+$customer = new Customer((object) ["name" => "test", "email" => "email@test.com"];
+
+$customerCreated = CustomerDomain::create($customer)->get();
 ```
 
 ### Update Customer
